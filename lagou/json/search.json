@@ -1,0 +1,41 @@
+{
+    "COMPANY": [
+       
+    {"cont": "roobo", "order": 4, "hot": 62, "fields": null, "hotness": 62, "resumenum": 0},
+    {"cont": "raynew", "order": 5, "hot": 31, "fields": null, "hotness": 31, "resumenum": 0},
+    {"cont": "roborock", "order": 6, "hot": 31, "fields": null, "hotness": 31, "resumenum": 0},
+    {"cont": "redefine", "order": 7, "hot": 20, "fields": null, "hotness": 20, "resumenum": 0},
+    {"cont": "realme", "order": 8, "hot": 19, "fields": null, "hotness": 19, "resumenum": 0}
+    ],
+    
+    "POSITION" : [
+    { "cont": "react", 
+    "order": 0, 
+    "hot": 2004,
+    "fields": ["金融", "人工智能", "电子商务", "医疗健康"],    
+    "hotness": 6704, 
+    "resumenum": 0 
+    } ,
+    {"cont": "reactnative",
+    "order": 1,
+    "hot": 1410, 
+    "fields": null,
+    "hotness": 306, 
+    "resumenum": 0},
+    {"cont": "ruby", 
+    "order": 2, 
+    "hot": 1403, 
+    "fields": null, 
+     "hotness": 1042, 
+    "resumenum": 0
+    },
+    {"cont": "rust",     
+    "order": 3, 
+    "hot": 598,
+    "fields": null, 
+    "hotness": 110,
+    "resumenum": 0
+    } 
+    ]
+   
+  }

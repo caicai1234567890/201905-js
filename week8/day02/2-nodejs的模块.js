@@ -5,3 +5,13 @@
 // 2. 自定义模块：自己写的模块
 // 3. 第三方模块： 通过npm或者yarn安装的模块，比如nrm,yarn,lessc等
 
+// 在nodejs中运行js 
+// 1.找到你要运行的js文件目录
+// 2. 在js文件所在目录中，按住shift键，点击鼠标右键，选择在此处打开powershell窗口（window7是在此处打开命令行窗口）
+// 3.在命令行界面中输入: node 文件名 回车 
+
+// vsCode 安装code Runner 插件 --> 右键选择 run Code 选项 （在nodejs中运行js）
+
+// 插件运行：
+// 1. code runner 插件,右键 run code 
+// 2. webstorm 在js文件中右键run文件名

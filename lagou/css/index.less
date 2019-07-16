@@ -768,3 +768,22 @@ li.focusTurns::after{
         }
     }
 }
+
+// go to top 
+.backTop{
+    display : block;
+    background : url("../img/toTop.png") no-repeat  ;
+    background-position: 0 top ;
+    width : 35px;
+    height : 56px;
+    position: fixed;
+    top : 75%;
+    left : 84%;
+    z-index : 1;
+    cursor:pointer;
+    transition: scrollTop .3s linear 0s;
+
+    &:hover{
+        background-position-x: -38px;
+    }
+}

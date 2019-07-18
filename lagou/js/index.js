@@ -8,12 +8,26 @@ let wholeCountry = document.querySelector('.wholeCountry');
 let loadedContent = loadBox.querySelector('.loadedContent');
 let imgData = null;
 let queryJson = "data.json";
+queryData(bindHTML);
+// 如果切换城市已经出现或一次,再次刷新页面的时候就不会出现
+if (!localStorage.getItem('loadCity')) {
+    loadBox.style.display = "block";
+    autoLoad();
+    localStorage.setItem('loadCity', 'appear');
+    } else 
+    {
+        loadBox.style.display = "none";
+};
+
 switCity.onclick = function () {
     loadBox.style.display = "block";
     // 选择城市缓慢出现
+    autoLoad();
     // loadedContent.classList.add('linear');
     wholeCountry.innerText = tbar_wholeCity.innerText;
     queryData(bindHTML);
+    
+
 };
 close.onclick = function () {
     loadBox.style.display = "none";
@@ -40,6 +54,21 @@ function bindHTML({ address }) {
         addressStr += `<li><a>${item}</a></li>`;
     });
     countryList.innerHTML = addressStr;
+};
+function autoLoad(){
+    let step = 20 , height = 325 , width = 400 ;
+    loadedContent.style.display = 'block';
+    let timer = setInterval(()=>{
+        width += step ;
+        height += step ;
+        if(width >= 510 ){
+            width = 510 ;
+            clearInterval(timer);
+        }
+        loadedContent.style.width = width + 'px';
+       
+        loadedContent.style.height = height + 'px';
+    },200); 
 }
 
 
@@ -161,8 +190,8 @@ $focus = $('.focusUl'),
     $focusList = null,
     stepIndex = 0,
     lastIndex = 0;
-$icon_left = $('.icon-left'),
-    $icon_right = $('.icon-right');
+    $icon_left = null,
+    $icon_right = null;
 let queryRecord = function () {
     return new Promise(function (resolve, reject) {
         $.ajax({
@@ -186,8 +215,12 @@ let queryRecord = function () {
     });
 }); */
 queryRecord.then((data) => {
-    console.log(data);
+    // console.log(data);
     bindRecord(data);
+    $slideLi.eq(0).css({
+        zIndex :1,
+        opacity:1
+    });
     // 实现功能  自动轮播
     init();
 }, (error) => { });
@@ -205,16 +238,32 @@ function bindRecord(imgData) {
     $focus.html(focusStr);
     $slideLi = $('.slideList li');
     $focusList = $('.focusUl li');
-
+    $icon_left = $('.icon-left');
+    $icon_right = $('.icon-right');
 }
 function init() {
     let autoTimer;
     $contain.mouseenter(function () {
         $slideLi.stop();
         clearInterval(autoTimer);
+        // console.log([$icon_left,$icon_right]);
+        $([$icon_left,$icon_right]).each((index,item)=>{
+            item.css({
+                zIndex : 2 ,
+                opacity: 1
+            });
+        });
+        iconClick();
+
     });
     $contain.mouseleave(function () {
         autoTimer = setInterval(autoMove, 3000);
+        $([$icon_left,$icon_right]).each((index,item)=>{
+            item.css({
+                zIndex : 0 ,
+                opacity: 1
+            });
+        });
     });
     $focusList.click(focusClick);
     autoTimer = setInterval(autoMove, 3000);
@@ -222,10 +271,14 @@ function init() {
 function autoMove() {
     // speed之后让opacity 缓慢增加直至变为1
     // 同时让index变成1，让其余原素的opacity，z-index 变为0
+  
     stepIndex++;
     // console.log($slideLi);
     if (stepIndex >= $slideLi.length) {
         stepIndex = 0;
+        $slideLi.eq(lastIndex).css({
+            zIndex: 0,
+        });
     }
     $slideLi.eq(stepIndex).css('zIndex', 1).stop().animate({
         opacity: 1,
@@ -235,7 +288,7 @@ function autoMove() {
             opacity: 0
         });
         lastIndex = stepIndex;
-    });
+    }); 
 
     autoFocus();
 }
@@ -246,7 +299,37 @@ function focusClick() {
     stepIndex = $(this).index();
     stepIndex -= 1;
     autoMove();
+};
+function iconClick(){
+    $icon_right.click(function(){
+        autoMove();
+    });
+    $icon_left.click(function(){
+        // let temIndex = stepIndex ;
+        stepIndex--;
+        if(stepIndex < 0){
+            stepIndex = $slideLi.length - 1;
+        }
+        // console.log(stepIndex);
+        //  stepIndex 2 --> op 1  1  --> 1    
+        // lastIndex 0  --> 0     2  ---> 0
+        $slideLi.eq(lastIndex).css({
+            zIndex: 0,
+        });
+        $slideLi.eq(stepIndex).css('zIndex', 1).stop().animate({
+            opacity: 1,
+        }, 500, () => {
+            $slideLi.eq(lastIndex).css({
+                zIndex: 0,
+                opacity: 0 
+            });
+            lastIndex = stepIndex;
+        });
+        autoFocus();
+    });
+
 }
+
 
 // 最新职位细节
 let firstP = document.querySelectorAll('.firstP');
@@ -362,6 +445,46 @@ let chat = document.querySelectorAll('.hot24Dl .chat'),
     }
 });
 
+// 点击友情提示的时候提示消失
+let hot_tips = hot24Dl.querySelector('.hot-tips') ,
+    tips_iknow = hot_tips.querySelector('.rel-tips-iknow'),
+    hot_tips_pos = hotPosi.querySelector('.hot-tips'),
+    tips_iknow_pos = hot_tips_pos.querySelector('.rel-tips-iknow');
+
+if(!localStorage.getItem('tipsId')) {
+    hot_tips.style.display = 'block';
+}else{
+    hot_tips.style.display = 'none'; 
+}; 
+
+if(!localStorage.getItem('tipsPos')) {
+    hot_tips_pos.style.display = 'block';
+}else{
+    hot_tips_pos.style.display = 'none'; 
+};
+
+tips_iknow.onclick = function(){
+    hot_tips.style.display = 'none';
+    localStorage.setItem('tipsId','hasClick');
+}; 
+tips_iknow_pos.onclick = function(){
+    hot_tips_pos.style.display = 'none';
+    localStorage.setItem('tipsPos','hasClick');
+}  
+
+// 互联网公司热门榜
+let interHotDl = document.querySelector('.interHotDl'),
+hot_com = interHotDl.querySelector('.hot-tips-com'),
+iKnow = hot_com.querySelector('.rel-tips-iknow');
+if(!localStorage.getItem('iKnow')){
+    hot_com.style.display = 'block';
+}else{
+    hot_com.style.display = 'none';
+}
+iKnow.onclick = function(){
+    hot_com.style.display = 'none';
+    localStorage.setItem('iKnow','hasClick');
+}
 // 友情链接 
 let $likBoxBot = $('.linkBoxDl #likBoxBot'),
     $down = $('.linkBoxDl #down'),

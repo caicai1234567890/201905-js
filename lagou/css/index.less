@@ -52,7 +52,7 @@
 }
 .contain .wrapper .icon-left ,.contain .wrapper .icon-right{
     font-size : 45px;
-    color:red;
+    color:rgba(0,0,0,.1);
     // display : block;
     top : 177px;
     cursor: pointer;
@@ -62,13 +62,19 @@
 .contain .wrapper .icon-left{
     position : absolute;
     left :0px; 
-    // z-index : 1;  
+    // z-index : 1; 
+    &:hover{
+        color: #eee;
+    } 
 }
 .contain .wrapper .icon-right{
     position : absolute;
     right : 0px;
     // display: none;
     // z-index : 1; 
+    &:hover{
+        color:#eee;
+    }
 }
 .contain .wrapper ul{
     height : 383px;
@@ -83,11 +89,13 @@
     top :0;
     z-index : 0;
     opacity : 0 ;
+
+    &:nth-child(1){
+        z-index: 1;
+        opacity: 1;
+    }
 }
-.contain .wrapper .slideList li:nth-child(1){
-    z-index: 1;
-    opacity: 1;
-}
+
 /* .cur{
     z-index : 1;
     opacity: 1;
@@ -163,6 +171,37 @@ li.focusTurns::after{
         opacity: 0;
         display:none;
     }
+    .hot-tips{
+        height : 18px;
+        line-height: 18px;
+        margin-top : 14px;
+        margin-bottom: 2px;
+        overflow: hidden;
+        .re-tips-icon{
+            width: 18px;
+            height : 18px;
+            display: inline-block;
+            background: #e6e6e6;
+            line-height: 18px;
+            margin-right: 10px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 18px;
+           i{
+               color: #fff;
+               font-style: normal;
+           } 
+        }
+        span:nth-child(2){
+            margin-right : 40px;
+            color:#999;
+
+        }
+        .rel-tips-iknow{
+            color:@normColor;
+            cursor: pointer;
+        }
+    }
     // margin-left : 19px; 
     li{
         width : 389px;
@@ -174,9 +213,21 @@ li.focusTurns::after{
         border : 1px solid #eaeeed;
         background: #ffffff;
         float : left;
+        position: relative;
         &:hover {
             box-shadow: 0 0 10px 0 rgba(56,81,76,.12);
 
+        }
+        .direct{
+            position: absolute;
+            left : -1px;
+            top : -1px;
+            width : 40px;
+            height : 40px;
+            display: inline-block;
+            background: url("../img/direct-recruit.png") no-repeat ;
+            background-position: 0 0;
+            background-size: 40px 40px; 
         }
         p{
             color : #777;
@@ -418,6 +469,37 @@ li.focusTurns::after{
     }
 }
 .interHotDl{
+    .hot-tips-com{
+        height : 18px;
+        line-height: 18px;
+        margin-top : 14px;
+        margin-bottom: 2px;
+        overflow: hidden;
+        .re-tips-icon{
+            width: 18px;
+            height : 18px;
+            display: inline-block;
+            background: #e6e6e6;
+            line-height: 18px;
+            margin-right: 10px;
+            border-radius: 50%;
+            text-align: center;
+            line-height: 18px;
+           i{
+               color: #fff;
+               font-style: normal;
+           } 
+        }
+        span:nth-child(2){
+            margin-right : 40px;
+            color:#999;
+
+        }
+        .rel-tips-iknow{
+            color:@normColor;
+            cursor: pointer;
+        }
+    }
     li{
         width:  288px;
         height : 270px;

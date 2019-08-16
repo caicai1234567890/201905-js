@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+
+    </div>
+<script src="./js/vue.js"></script>
+<script>
+// 双向数据绑定原理: 在vue创建实例的时候,会遍历data中的属性,通过一个Object.defineProperty()方法把data中的属性都改成geter和setter,当获取这个值时,会触发get方法,当修改属性值的时候会触发set方法,vue在此前会收集所有依赖data属性的元素,当依赖这个值发生改变的时候会触发set方法,然后vue会更新所有依赖这个数据的元素
+let obj = {
+    _name:1,
+    
+};
+Object.defineProperty(obj,'name',{
+    get(){
+        return this._name;
+    },
+    set(val){
+        this._name = val;
+    }
+});
+console.log(obj.name); //取值时会执行get方法
+obj.name = 100; // 修改对象属性值的时候会触发set方法
+
+
+</script>
+</body>
+</html>

@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div id="app">
+    <p>{{ reverseMsg }}</p>
+</div>
+<script src="./js/vue.js"></script>
+<script>
+
+let vm = new Vue({
+    el:'#app',
+    data : {
+        msg : 'hello'
+    },
+    computed: {
+        reverseMsg(){
+         return  this.msg.split('').reverse().join('');
+        }
+    }
+});
+
+// 计算属性：类似于过滤器，可以处理某个或者某些属性的复杂展示逻辑,但是不会改变源数据，目的不要在模板中写太多的逻辑
+</script>
+</body>
+</html>

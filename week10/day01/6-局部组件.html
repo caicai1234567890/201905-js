@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div id="app">
+    <lisi></lisi>
+    <hr>
+    <cxk></cxk>
+</div>
+
+<div id="app2">
+    <lisi></lisi>
+    <hr>
+    <cxk></cxk>
+</div>
+<script src="./vue.js"></script>
+<script type="module">
+    // 局部组件的使用步骤:
+    // 1. 创建组件   2. 注册组件 3. 使用组件
+    
+    // 创建组件: 写一个创建Vue实例的配置对象
+/*     let lisi = {
+        template : `<div @click="fn">lisi{{msg}}</div>`,
+        data(){
+            return {
+                msg : 'Hello'
+            }
+        },
+        methods: {
+            fn(){
+                console.log('lai le');
+            }
+        }
+    }  */
+    
+    import lisi from './li.js' ;
+    import cxk from './cxk.js';
+
+    let vm = new Vue({
+        el : '#app',
+        data : {},
+        components: {
+            // 局部组件写在components里面就完成了局部注册
+            lisi,
+            cxk // 局部组件在哪个实例中注册,只能在哪个实例中用
+        }
+    });
+
+    let vm2 = new Vue({
+        el : '#app2',
+        data : {},
+        components:{
+            // 在vm2 中要使用cxk 和li组件,需要再次注册,他们两个分别注册没有联系
+            lisi, // 被注册的组件如lisi 叫做子组件,注册时所在的实例或者组件叫做父组件
+            cxk 
+        }
+    })
+
+    // 
+</script>
+</body>
+</html>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div id="app">
+
+    <input type="text" v-model="text" @input="fn">
+    {{msg}}
+</div>
+<script src="./js/vue.js"></script>
+<script>
+
+// 侦听器属性： watch 
+// 当我们需要监听一个属性的改变，当它改变的时候我们要做某些事，此时就需要使用侦听器属性
+
+let vm = new Vue({
+    el : '#app',
+    data:{
+        text : '',
+        msg : ''
+    },
+    methods: {
+        fn(){
+            console.log(this.text);
+        }
+    },
+    watch: {
+        // watch 就是侦听器属性，写在这个对象中的属性都是要被监控的
+        // 当被监控的属性发生变化的时候就会触发对应的函数
+        // 属性名： 被监控的属性名，例如text,属性值是一个函数，
+
+        // 能用表单事件就用事件，当不能用事件的时候就用计算属性，当两个方法都不行的时候再用watch
+        text(newVal , oldValue){
+            // newVal 是被监控属性的新值， oldVal是被监控属性的旧值
+            // console.log(newVal,oldValue);
+          /*   if(newVal.length < 5){
+                this.msg = ' too short';
+            }else if(newVal.length > 20 ){
+                this.msg = "太长了"
+            }else{
+                this.msg ='';
+            } */
+            // 侦听器属性中可以使用异步
+            setTimeout(()=>{
+                if(newVal.length < 5){
+                this.msg = ' too short';
+            }else if(newVal.length > 20 ){
+                this.msg = "太长了"
+            }else{
+                this.msg ='';
+            }
+            });
+        }
+    }
+});
+</script>
+</body>
+</html>

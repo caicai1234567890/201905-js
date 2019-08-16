@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        #app div{
+            position: absolute;
+            width : 100px;
+            height : 100px;
+            background : lightblue;
+            -webkit-user-select: none;
+        }
+        #app div:nth-child(2){
+            top : 220px;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+
+    <div v-drag>A</div>
+    <div v-drag>B</div>
+</div>
+<script src="./js/vue.js"></script>
+<script>
+// 指令: 是以v-开头的行内属性,vue赋予了它特殊的功能
+
+let vm = new Vue({
+    el:'#app',
+    data:{
+    },
+    filter:{},
+    methods: {
+        
+    },
+    watch:{},
+    created() {
+        
+    },
+    computed: {
+        
+    },
+    directives: {
+      drag:{
+        //   inserted 是指令的钩子函数
+          inserted(el){
+            // el 使用这个指令的元素对象
+            // console.log(el);
+            el.onmousedown = function(e){
+                this.startX = e.pageX - this.offsetLeft ;
+                this.startY = e.pageY - this.offsetTop ;
+                // 2. 把鼠标移动事件委托给document 防止鼠标丢失
+                document.onmousemove = function(e){
+                    // console.log(e);
+                    el.style.left = e.pageX - el.startX + 'px';
+                    el.style.top = e.pageY - el.startY + 'px';
+                };
+                 // 3. 把
+            document.onmouseup = function(){
+                document.onmousemove = document.onmouseup = null;
+            }
+            };
+           
+          }
+      }  
+    },
+});
+
+</script>
+</body>
+</html>

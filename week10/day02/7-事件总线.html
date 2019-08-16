@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <prev></prev>
+        <hr>
+        <next></next>
+    </div>
+<script src="./vue.js"></script>    
+<script>
+
+// 事件总线(EventBus)用来解决兄弟之间的通信问题
+// 1. 创建一个事件总线(一个空的Vue实例)
+// 2. 谁的数据被修改,谁监听事件,在created 中用eventBus.$on(事件名,事件函数)
+// 3. 谁发起修改数据谁触发事件,触发事件用eventBus.$emit(事件名,数据)
+
+
+// 一般真实项目中用到事件总线只有一个,用的时候从这个模块中导出即可
+let eventBus = new Vue();
+let prev = {
+    template : `<div :style="{backgroundColor : color}">哥哥{{color}}</div>`,
+    data(){
+        return {
+            color : 'green'
+        }
+    },
+    created () {
+        // 一般在created上监测
+        // eventBus.$on('changeRed',this.toRead)
+    },
+    mounted(){
+        // mounted 中也可以实现监听
+        eventBus.$on('changeRed',this.toRead);
+    },
+    methods :{
+        toRead(val){
+            this.color = val;
+            // console.log(val);
+        }
+    }
+};
+let next = {
+    template : `<div>弟弟: <button @click="fn">修改</button></div>`,
+    methods: {
+        fn(){
+            // 弟弟发起修改的一方,所以弟弟触发事件
+            eventBus.$emit('changeRed','red');
+        }
+    }
+}
+
+let vm = new Vue({
+    el : '#app',
+    components: {
+        prev,
+        next
+    }
+});
+</script>
+</body>
+</html>

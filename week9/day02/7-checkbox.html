@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div id="app">
+    <!-- 当checkbox只有一个的时候,vue会把val默认转成布尔值,如果转化完之后是true,checkbox就是选中状态，否则不选中-->
+    <!-- 当表单元素的选中状态发生变化的时候会触发onchange事件 -->
+    爱好 <label for="">吃饭 <input type="checkbox" value="1" @change="fn" v-model="val"></label>
+    {{val}}
+    <!-- 多个checkbox要v-model一个数组 ,当选中某一个checkbox的时候，checkbox的value会进入到数组中，当取消某一项，这个checkbox的值会自动从数组中移除掉-->
+    <div>
+            <label for="">运动 <input type="checkbox" value="2" v-model="hobby"
+            @change="checkChange"    
+                ></label>
+
+            <label for="">篮球 <input type="checkbox" value="3" v-model="hobby"
+                @change="checkChange"
+                ></label>
+            {{hobby}}
+    </div>
+    
+   
+</div>
+<script src="./js/vue.js"></script>
+<script>
+
+let vm = new Vue({
+    el : '#app',
+    data:{
+        val: false,
+        hobby: ["3"]
+
+    },
+    methods :{
+        fn(){
+            console.log(this.val);
+        },
+        checkChange(){
+            console.log(this.hobby);
+        }
+    }
+});
+</script>
+</body>
+</html>

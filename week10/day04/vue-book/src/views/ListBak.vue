@@ -1,0 +1,102 @@
+<template>
+    <div>
+        <Header :back="true">列表页</Header>
+        <div class="content">
+          <ul class="container">
+            <router-link v-for="(item,index) in allBooks" 
+            to="{name:'detail', params:{id: item.bookId}}"
+            :key="index"
+            tag="li"
+            >
+               <img :src="item.bookCover" alt="">
+               <div class="right">
+                 <h4>{{item.bookName}}</h4>
+                 <p>{{item.bookInfo}}</p>
+                 <p>{{item.bookPrice}}</p>
+                 <button class="btn" @click.stop="remove(item.bookId)">删除</button>
+                 <button class="btn" @click.stop="collect(item)">收藏</button>
+               </div>
+            </router-link>
+          </ul>
+        </div>
+    </div>
+</template>
+
+<script>
+import Header from '../components/Header.vue'
+import { getAllBooks, deleteBook, collectBook } from '../model/list'
+
+export default {
+  name: 'List',
+  data () {
+    return {
+      allBooks: []
+    }
+  },
+  created () {
+    this.getAllBook()
+  },
+  methods: {
+    async getAllBook () {
+      this.allBooks = await getAllBooks()
+    },
+    async remove(id){
+      await deleteBook(id)
+      this.getAllBook()
+    },
+    async collect(book){
+      await collectBook(book)
+      // 一般在这里还可以提示收藏成功
+    },
+    go(id) {
+      // this.$route.push('/detail/id')
+     this.$router.push({
+        name: 'detail',
+        params: {
+          id
+        }
+      }) 
+    }
+  },
+  components: {
+    Header
+  }
+}
+</script>
+
+<style scoped lang="less">
+  .container {
+    margin-bottom: 50px;
+    li {
+      padding: 10px;
+      overflow: hidden;
+      img {
+        float: left;
+        width: 16px;
+      }
+      .right {
+        padding-top: 20px;
+        float: left;
+        .price {
+          font-size: 20px;
+          color: red;
+          margin-bottom: 10px;
+        }
+        .btn {
+          border: none;
+          border-radius: 5px;
+          width: 60px;
+          height: 30px;
+          color: #fff;
+          background: red;
+          font-size: 18px;
+
+          &:nth-of-type(1){
+            margin-right: 5px;
+          }
+        }
+      }
+    }
+  }
+
+</style>

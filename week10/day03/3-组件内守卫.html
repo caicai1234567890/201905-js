@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <router-link to="/about">关于我们</router-link>
+        <router-link to="/home/12">关于12</router-link>
+        <router-view ></router-view>
+    </div>
+    <script src="./vue.js"></script>
+    <script src="./vue-router.js"></script>
+    <script>
+ /*      let home = {
+        template : `<div>Home</div>`
+    }; */
+    let about = {
+        template: `<div>About</div>`
+    }
+    let home = {
+        template : '<div>Home</div>',
+        beforeRouteEnter(to,from,next){
+            // 在渲染路由对应的组件前被调用
+            // 不能访问this,此时Vue实例尚未创建
+            next();
+        },
+        beforeRouteUpdate(to,from,next){
+            // 当前路由发生改变，但是组件被服用（没销毁），动态路由的参数发生变化时
+            // 访问路由参数 to.params,要去网的路由参数
+            // 正要离开的路由参数from.params 
+            next();
+        },
+        beforeRouteLeave(to, from, next) {
+            // 导航要离开当前组件对应的路由时调用
+            let doLeave = confirm('信息尚未保存，确定要离开吗');
+            if(doLeave){
+                next();
+            }
+            
+        }
+    };
+
+    let routes = [
+        {
+            path : '/',
+            component: home
+        },
+        {
+            path : '/home/:list',
+            component: home
+        },
+        {
+            path : '/about',
+            component : about
+        }
+    ];
+    let router = new VueRouter({
+        routes
+    });
+
+    let vm = new Vue({
+        el : '#app',
+        router
+    })
+    </script>
+</body>
+</html>

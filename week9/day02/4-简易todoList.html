@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div id="app">
+    <input type="text" id="todoInput" v-model="todo"
+     @keydown.enter = "add"   
+    >
+    <ul id="list">
+        <li v-for="(item,index) in todoList" :key="index">
+            {{item}}
+            <button @click="remove(index)">删除</button>
+        </li>
+    </ul>
+</div>
+    
+<script src="./js/vue.js"></script>
+<script>
+
+let vm = new Vue({
+    el:'#app' ,
+    data:{
+        todo: '',
+        todoList : [] 
+    },
+    methods: {
+        remove(index){
+         this.todoList.splice(index,1);
+        },
+        add(){
+            // this.todo 和 input 是双向绑定的,我们在input中输入内容,vue会把input中的值保存到this.todo中
+            this.todoList.push(this.todo);
+            // this.todo = ''; //添加到todolist中后,清空todo
+        }
+    }
+});
+
+// Vue是数据驱动,不需要我们操作DOM,我们只需要操作数据,当Vue发生变化了,它会把页面中用到这个数据的所有地方按照数据的最新值重新渲染
+/* let input = document.getElementById('todoInput');
+let list = document.getElementById('list');
+ 
+input.onkeydown = function(e){
+    if(e.keycode === 13){
+        let str = `<li>${this.value}
+        <button>删除</button>    
+            </li>`;
+        list.innerHTML += str;    
+    }
+}
+list.onclick = function(e){
+    if(e.target.nodeName.toUpperCase() === 'BUTTON'){
+        list.removeChild(e.target.parentNode);
+    }
+    
+} */
+</script>    
+</body>
+</html>

@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<script>
+
+let ary = [1,2,8,4];
+
+// 专门用来求和的 
+// ary.reduce((前一个，后一个) =>{},初始值)
+// 
+let total = ary.reduce((pre,next)=>{
+    // 第一次执行的时候 pre是初始值，初始值不传的时候pre是第一项
+    // 后面每一次执行的时候，pre是上一次回调函数的返回值，next是数组的下一项
+    console.log(pre,next);
+    return pre + next ;
+},0);
+console.log(total);  // reduce 最后的返回结果是最后一次回调执行的返回结果
+
+
+</script>
+</body>
+</html>

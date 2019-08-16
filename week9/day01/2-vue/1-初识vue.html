@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div id="app">
+    {{msg}} <br>
+    <input type="text" v-model="msg">
+    <ul>
+        <li v-for="(item,index)in ary">{{item.name}} {{item.age}}</li>
+    </ul>
+</div>
+<script src="./js/vue.js"></script>  
+<script>
+    let vm = new Vue({
+        el:'#app',
+        data:{
+            msg:'Hello World',
+            ary:[
+                {
+                name:'lisi',
+                age: 18
+            },
+            {
+                name : 'xo',
+                age : 19
+            }
+        ]
+        }
+    })
+// Vue 
+// Vue是一个MVVM框架,框架思路是数据映射视图,数据驱动视图,有别于我们过往的DOM操作开发思想
+// 我们只关心数据,视图(页面中的Html)的更新交给Vue.js 
+// MVC 和 MVVM
+// MVC :M - Module层,是数据成, V-view视图层, C controller 控制器, 数据是依赖控制器渲染到视图中的.
+// MVVM: 
+// M Model层 数据成
+// V  View层 视图层
+// VM view-model 视图模型成
+// 在MVVM中靠VM把视图和数据层联系起来,把数据映射成视图,当数据变更时自动更新视图
+// 双向数据绑定: 把数据映射成视图,数据发生变化更新视图,同时,如果视图发生变更会更新数据 
+// vue是响应式框架,所谓响应式不是css的响应式而是数据变化视图自动变化
+</script>
+</body>
+</html>

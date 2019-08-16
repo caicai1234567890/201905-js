@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div id="app">
+    <!-- select下面的option都有一个value属性，select v-model 的值和option的value相同的时候，option会被选中，当option切换的时候会触发select的onchange事件 -->
+    <select name="" v-model="lunch" @change="lunchChange">
+        <option value="1">菜</option>
+        <option value="2">碟子</option>
+        <option value="3">碗</option>
+    </select>
+    {{lunch}}
+    <button @click="clear">清空</button>
+    <!-- textarea通过 v-model和某个属性双向数据绑定 -->
+    <textarea name="" id="" cols="30" rows="10" v-model = "bigText"></textarea>
+    {{bigText}}
+</div>
+<script src="./js/vue.js"></script>
+<script>
+ 
+ let vm = new Vue({
+     el : '#app',
+     data:{
+        lunch:3,
+        bigText:''
+     },
+     methods: {
+        lunchChange(){
+            console.log(this.lunch);
+        },
+        clear(){
+            this.bigText = '';
+        }
+     }
+
+ });
+</script>
+</body>
+</html>

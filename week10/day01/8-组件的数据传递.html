@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div id="app">
+
+</div>
+<script src="./vue.js"></script>
+<script>
+// 
+
+let son = {
+    template:`<div>{{outermsg}} |{{double}}<button @click="fn">修改</button></div>`,
+    data (){
+        return {
+            msg: 'hello'
+        }
+    },
+    props: ['outermsg', 'double'],
+    methods: {
+        fn(){
+            console.log(this.outermsg);
+            // this.outermsg = 'hehe';
+        }
+    }
+};
+
+let vm = new Vue({
+    template : `<div><son :outermsg="pmsg" double="pmsg"></son></div>`,
+    el : '#app',
+    data : {
+        pmsg: 'msg from parent'
+    },
+    components: {
+        son
+    }
+})
+
+// 使用props 
+// 1.在使用子组件的时候,在自定义的标签行内动态绑定属性,如 :outermsg,outermsg属性右侧引号中是一个变量,这个变量就绑定了父组件的数据,写在子组件行内的属性如: outermsg,叫做一个props 
+// 2. 在组件的props中注册当前的props,例如props:['outermsg']
+// 3. 子组件中使用props, vm最终会代理所有的props,所以就像使用data中的数据相同的方式来使用props,但是不能修改它 
+
+// 4. 使用props动态绑定父组件的数据,当父组件的数据发生变化的时候,子组件收到的数据自动跟着变
+
+// 父传子用props 
+
+// Vue父子组件通信是单项数据流,数据只能是父组件通过props传给子组件但是子组件不能直接修改父组件的数据;
+
+// 单项数据流,父组件的数据发生变化时,子组件收到的数据自动发生变化
+
+// 当子组件像修改父组件的数据时,子组件要通知父组件,让父组件更改数据,父组件修改后,子组件就会自动获得最新的数据
+
+
+</script>
+</body>
+</html>

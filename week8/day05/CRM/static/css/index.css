@@ -1,0 +1,40 @@
+
+*{
+    margin: 0;
+    padding : 0;
+}
+ul,li{
+    list-style : none;
+}
+a{text-decoration: none;}
+
+.box1{
+    margin: 30px auto;
+    width : 1000px;
+    padding : 10px;
+    border : 2px solid #00b38a;
+    line-height: 35px;
+}
+.w50{
+    width : 50px;
+}
+.w150{
+    
+    width : 150px;
+}
+.w200{
+    width : 200px;
+}
+.head{
+    background : antiquewhite;
+}
+.head span, li span{
+    display: inline-block;
+}
+li:nth-child(even){
+    background : #eeeeee;
+}
+li:hover{
+    background : rgb(109, 109, 91);
+    color : #fff;
+}

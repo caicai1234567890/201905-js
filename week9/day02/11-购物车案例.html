@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/bootstrap.css">
+</head>
+<body>
+<div id="app">
+
+    <div class="container">
+        <div class="row">
+            <h2 class="text-danger">购物车</h2>
+            <table class="table table-border">
+                <tr>
+                    <td>全选
+                        <input type="checkbox" v-model="checkAll" @change="changeAll">
+                    </td>
+                    <td>商品</td>
+                    <td>单价</td>
+                    <td>数量</td>
+                    <td>小计</td>
+                    <td>操作</td>
+                </tr>
+                <tr v-for="(item,index) in products" :key="index">
+                    <td>
+                        <input type="checkbox" v-model="item.isSelected" @change="changeOne">
+                    </td>
+                    <td>
+                        <img :src="item.productCover" alt="">
+                        {{item.productInfo}}
+                    </td>
+                    <td>
+                        {{item.productPrice}}
+                    </td>
+                    <td>
+                       <input type="number" v-model="item.productCount" min="1">
+                    </td>
+                    <td>
+                        {{item.productPrice * item.productCount |toRMB }}
+                    </td>
+                    <td>
+                        <button class="btn btn-danger" @click="remove(index)">删除</button>
+                    </td>
+                </tr>
+                <tr>
+                    <!-- colspan 合并列单元格 -->
+                    <td colspan="6">总价{{sum() | toRMB}}</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+
+
+
+
+
+</div>
+
+
+
+<script src="./js/vue.js"></script>
+<script src="./js/axios.js"></script>
+<script>
+
+let vm = new Vue({
+    el : '#app',
+    data : {
+        checkAll: true,
+        products: []
+    },
+    created () {
+        // 创建vue实例后会被调用
+        this.getData();
+    },
+    filters :{
+        toRMB(val,num=2){
+            if(val){
+                return '￥' + val.toFixed(2) 
+            }else {
+                return 0.00
+            }
+            
+        }
+    },
+    methods: {
+        getData(){
+            axios.get('carts.json').then(({data})=>{
+                this.products = data ;
+            })
+        },
+        changeAll(){
+            // 当checkall 选中时，checkall是true ,此时下面的两个都应该选中，isSelected 为true , 当checkAll没选中的时候，checkAll是false ,即isSelected都是false,item的isSelected 和checkAll保持一致 
+            this.products.forEach(item => item.isSelected = this.checkAll); 
+        },
+        changeOne(){
+            // 点击每个checkbox时去校验是不是每条数据的isSelected都为true,如果都为true,checkAll就应该为true,否则只要有一个不为true，checkALL就是false 
+            this.checkAll = this.products.every(item => item.isSelected);
+        },
+        remove(index){
+            this.products.splice(index,1);
+        },
+        sum(){
+            // 计算总价: 只计算checkbox选中的商品
+            let selected = this.products.filter(item => item.isSelected);
+         /*    let total = 0;
+            selected.forEach(
+                item =>{
+                    total += item.productProce * item.productCount;
+                    return total;
+                } */
+               
+            
+        }
+    }
+});
+
+</script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div id="app">
+    <button v-on:click="fn($event,1,2)">点我</button>
+    <a href="" @click.prevent="fn"></a>
+    <input type="text" v-model="title" @keydown.enter = "add">
+    <input type="number" v-model="num" @keydown.up="add" min="1">
+    {{price | toFixed(3) | toRMB}}
+    <!-- | 管道符 把管道符前面的值传给后面的过滤器，过滤器可以连续使用，后面过滤器的参数收到的是前面的过滤器处理的结果 -->
+    <input type="text" v-model="msg">
+    {{msg}}
+
+    <!-- 多个radio v-model同一个属性，这些radio中每次只能有一个被选中 -->
+    <input type="radio" v-model="sex" value="1" @change="radioChange"> 男
+    <input type="radio" v-model="sex" value="2"> 女
+
+    <label for="">
+        <input type="checkbox" v-model="hobby" value="1" @change="checkboxChange"> nodejs
+    </label>
+    <label>
+        <input type="checkbox" v-model="hoddy" value="2"> vuejs
+    </label>
+    <div>
+        <select name="" id="" v-model="lunch">
+            <option value="1">猛击</option>
+            <option value="2">米饭</option>
+        </select>
+
+    </div>
+</div>
+<script src="./js/vue.js"></script>
+<script>
+    let vm = new Vue({
+        el : '#app',
+        data:{
+            num : 1 ,
+            price : 44424.444,
+            title : 'rr',
+            msg : '23',
+            sex : 1 ,
+            hobby:[ '1','2'],
+            lunch : '1'
+        },
+        created () {
+            // 在Vue 的实例创建完之后会执行这个钩子
+            this.getDate(); // 在这里面调用请求数据
+        },
+        methods: {
+            fn(a,b,c){
+                // 1. 当绑定方法时不传参，第一个参数是事件对象
+                // 2. 如果传参事件函数收到的参数就是绑定事件括号里面写的参数
+                // 3. 如果既需要传参又需要事件对象，就需要在小括号里面写$event
+            },
+            add(){
+                num++;
+            },
+            radioChange(){
+                console.log(this.sex);
+            },
+            getDate(){
+                axios.get().then(({})=>{
+
+                });
+            }
+        },
+        filters : {
+            toFixed(val,num){
+                return val.toFixed(num);
+            },
+            toRMB(val){
+                return  '￥' + val ;
+            }
+        }
+    });
+    // 1. Vue绑定事件： v-on: 不带on的事件名 = 方法名 ， v-on可以简写成@
+    // 2. 事件修饰符
+    // 1. .prevent 阻止元素的默认事件
+    // 2. .stop 阻止冒泡
+    // 3. .capture 在捕获阶段触发
+    // 4. .once 只触发一次
+    // 5. 。self 当自身的事件被触发时才执行事件函数
+    // 键盘事件修饰符：指定按下按键时才触发事件函数
+    // 1. .enter 回车
+    // 2. .esc   esc
+    // 3. .tab   tab 
+    // 4. .delete  delete
+    // 5. .up    
+    // 6.  .down 
+    // 7.  .left 
+    // 8.  .right 
+    // 9.  .space   空格
+
+    // 简易todoList: 数据驱动,页面所有的变更都是基于数据, 视图是数据的映射,想让视图发生变化,我们要做的就是让数据发生变化,数据发生变化之后,vue会自动按照最新的数据渲染视图
+
+    // 过滤器: 用来格式化数据,不会改变原数据
+    // 1. 全局过滤器  Vue.filter(过滤器名,函数(val)=>)
+    // 2. 局部过滤器
+
+    // v-model 和表单元素
+    //  radio 
+    // checkbox 
+    // disabled 属性： 为true时按钮被禁用，false的时候可以点击
+
+    // 
+</script>
+</body>
+</html>

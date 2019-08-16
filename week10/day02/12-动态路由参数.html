@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        
+    </div>
+    <template id="home">
+            <router-link to="/detail/1/x">文章一</router-link>
+            <router-link to="/detail/2/y">文章二</router-link>
+            <router-link to="/detail/3/z">文章三</router-link>
+            <router-view name="path"></router-view>
+    </template>
+    <script src="./vue.js"></script>
+    <script src="./vue-router.js"></script>
+    <script>
+    // 动态路由： /order/detai/:orderId
+    // Vue-router也支持动态路由：路由中的某一部分不是写死的，而是等到用的时候会动态传入
+    // /detail/:id/:text 此时id和text是可以变的，我们要研究是如何获取id和text 
+
+    let home = {
+        template: "#home" ,
+    };
+    let detail = {
+        // 获取动态路由参数 this.$route.params
+        // this.$route.query 是问号传参的参数
+        template: `<div>id:{{$route.params.id}};text: </div>`,
+        mounted () {
+            // this.$route.params是动态路由的参数
+            console.log(this.$route);
+        }
+    }
+
+    let routes = [
+        {
+            name : "detail",
+            path : '/detail/:id/:text',
+            component: detail 
+        },
+    ];
+    let router = new VueRouter({
+    routes  
+});
+    let vm = new Vue({
+        el : '#app',
+        router
+    })
+    </script>
+</body>
+</html>

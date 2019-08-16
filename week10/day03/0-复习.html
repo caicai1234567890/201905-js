@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+            <router-link to="/list">去列表</router-link>
+            <router-link to="/articles/1/x?name=lisi">文章1</router-link>
+            <router-view ></router-view>
+            <button @click="toArticle">去</button>
+    </div>
+    <!-- <router-link to="list">去列表</router-link> -->
+    <template id="listTpl">
+        <div>
+            <div>LIST <button @click="goBack">返回</button></div>
+            <div>
+                <router-link to="/list/view">查看</router-link>
+                <router-link to="/list/modify">修改</router-link>
+               
+            </div>
+            <router-view ></router-view>
+        </div>
+    </template>
+    <script src="./vue.js"></script>
+    <script src="./vue-router.js"></script>
+    <script>
+    // 1. sync 修饰符事件简写,用于简化子组件向父组件传递数据的过程
+    // 1.1 在父组件使用子组件时prop后面根一个.synx,例如 :open.sync="flag" 取消显示监听事件
+    // 1.2 子组件触发事件时,事件名改为update:prop 名,例如 this.$emit('update:open',false)
+
+    // 2. props 验证,props除了用数组注册,还可以用对象注册,用对象注册还可以实现prop验证
+    // 
+/*     props: {
+        open : {
+            type: Boolean, 
+            required: true, // 必传,要求父组件使用子组件时必须配置这一个prop 
+            // default : false , // 当前prop默认值,父组件不传的时候生效
+            default(){
+                // 如果默认值是一个对象或者数组,default需要设置为一个函数return 一个数组或一个对象
+                return {}
+            },
+            validator(val){
+                // val就是prop收到的值 
+                // 如果验证失败可以抛出异常或者return false
+                // 如果验证通过需要return true
+            }
+        }
+    } */
+    
+    // 3. 父子组件mounted: 子组件的mounted先执行，方便父组件获取子组件的实例（通过ref）,ref写在原生标签上获取的就是原生的DOM对象，如果写在组件的标签上获取到的是对组件实例的一个引用
+
+    // 4.动态组件 <component :is="title"></component> component组件会动态渲染is 属性绑定的值所代表的组件，被切走的组件其实例会被销毁，存在里面的数据也就随之销毁了，被切走的组件称为失活的组件，而当前被渲染的组件称为激活的组件
+    // 5. keep-alive 可以保持失活的组件不销毁
+
+    // 6. 事件总线 eventBus 用来解决非父子组件的通信
+    // 6.1 创建一个空的vue实例 let eventBus = new Vue()
+    // 6.2 谁的数据被修改就谁监听事件，一般在created中监听事件，用  eventBus.$on(自定义事件名，事件函数)
+    // 6.3 谁发起修改，谁触发事件 eventBus.$emit(事件名，参数)
+    // 7. 插槽 slot 
+    // 向子组件中嵌入内容 
+    // 在子组件的模板中写好slot标签，<slot></slot>
+    // 具名 slot <slot name="header"></slot>
+    // <modal><div  slot="header"></div><span></span></modal>
+    
+    // 8.路由： vue-router 
+    // router-link 用于切换路由，切换到to属性指向的路由
+    // router-view 展示路由对应的组件
+    // 使用路由的步骤
+    // 1. 安装并引入vue-router 
+    // 2. 配置路由映射表，单页面应用不会切换html,而是路由切换组件
+    // 3. 创建vue-router的实例，并且传入路由映射表
+    // 4. 创建vue实例时配置 router 属性
+
+    let home = {
+        template : `<div>HOME <button @click="toList">提交</button></div>`,
+        methods: {
+            toList(){
+                // 方法且路由
+                this.$router.push('/list');
+            }
+        }
+    };
+    let list = {
+        template : `#listTpl`,
+        methods: {
+            goBack(){
+                // 返回上一页
+                this.$router.go(-1);
+            }
+        }
+    };
+
+    let view = {
+        template : `<div>查看</div>`
+    };
+    let modify = {
+        template : `<div>修改</div>`
+    }; 
+
+    let articles = {
+        template : `<div>第{{$route.params.id}}篇文章</div>`,
+        created () {
+            console.log(this.$route.params);
+        }
+    };
+  
+    let routes = [
+        {
+            name : 'articles',
+            path : '/articles/:id/:text',
+            component:articles
+        },
+        {
+            path : '/',
+            component : home
+        },
+        {
+            path : '/home',
+            component: home
+        },
+        {
+            path : '/list',
+            component: list,
+            children: [
+                {
+                    path : 'view',
+                    component:view
+                },
+                {
+                    path : 'modify',
+                    component: modify
+                }
+            ]
+        },
+        {
+            path : '*',
+            // 当url中路由在路由映射表中没有的时候，渲染home组件
+            component: home
+        }
+    ];
+
+    let router = new VueRouter({
+        routes : routes
+    });
+
+    let vm = new Vue({
+        el : '#app',
+        router : router,
+        methods :{
+            // 点击router-link 和执行下面的方法效果一样
+            toArticle(){
+                this.$router.push({
+                    name: 'articles',
+                    params:{
+                        id:1,text:'x'
+                    },
+                    query:{
+                        name: 'lisi',
+                        age: 6
+                    }
+                })
+            }
+        }
+    })
+    </script>
+</body>
+</html>

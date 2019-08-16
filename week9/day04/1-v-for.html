@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding : 0;
+        }
+        ul,li{
+            list-style : none ;
+        }
+        #app ul{
+            width : 500px;
+            margin : 30px auto;
+        }
+        #app li{
+            width : 500px;
+            margin-top : 30px;
+            cursor: pointer;
+            
+        }
+        #app li:hover{
+            color : red;
+        }
+        #app li p :hover{
+            color : black;
+        }
+    
+    </style>
+</head>
+<body>
+<div id="app">
+    <div>
+        <input type="text" >
+    </div>
+    <ul>
+        <li v-for="(item, index) in itz" :key = "index">
+            <span @click="disShow(index)"> {{item.title}} </span>
+            <div v-html="item.content" v-show = "false"></div>
+        </li>
+    </ul>
+
+</div>
+<script src="./js/vue.js"></script>
+<script src="./js/axios.js"></script>
+<script>
+let vm = new Vue({
+    el : '#app',
+    data : {
+        itz: [],
+        cur : '',
+    },
+    methods: {
+        getQuery() {
+            axios.get('./itz.json').then(( data ) => {
+                let { data : {data :{ listInfo }}} = data;
+
+                listInfo.forEach( item => item.flag = 'false');
+                console.log(listInfo);
+                this.itz = listInfo;
+                
+            });
+        },
+        disShow(index){
+         /*    if(this.cur !== index) {
+                this.cur = index;
+                this.flag = '-';
+                return ;
+            }
+            this.cur = ''; 
+            this.flag = '+';  */
+            this.itz[index].flag = !this.itz[index].flag;
+
+        }
+    },
+    created () {
+        this.getQuery();
+    }
+});
+</script>
+</body>
+</html>

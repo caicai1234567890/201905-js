@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div id="app">
+    <input type="text" v-model="text"> <br>
+    {{msg}}
+</div>
+<script src="./js/vue.js"></script>
+<script>
+
+// 当input中输入的内容大于5的时候提示太长了，当输入的内容太小了提示太短了
+let vm = new Vue({
+    el : '#app',
+    data : {
+        text: ''
+        
+    },
+    computed: {
+
+        // 计算属性不能写在异步处理程序中 
+        // ajax , 定时器， promise的then
+        msg () {
+            setTimeout(()=>{
+                if( this.text.length > 5){
+                return ' too lang';
+            };
+            if(this.text.length < 3){
+                return ' too short' ;
+            }
+            },0);
+        }
+    }
+});
+</script>
+</body>
+</html>

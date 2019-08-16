@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <router-link to="/home">首页</router-link>
+        <router-link to="/about">关于我们</router-link>
+        <router-view ></router-view>
+    </div>
+    <script src="./vue.js"></script>
+    <script src="./vue-router.js"></script>
+    <script>
+    let home = {
+        template : `<div>Home</div>`
+    };
+    let about = {
+        template : '<div>About</div>'
+    };
+
+    let routes = [
+        {
+            path: '/',
+            component : home
+        },
+        {
+            path : '/home',
+            component : home
+        },
+        {
+            path : '/about',
+            component: about,
+            beforeEnter(to, from, next) {
+                // 路由独享守卫，要配置在路由映射表中
+                console.log(to);
+                console.log(from);
+                // 在这个钩子中做拦截，如果校验通过执行next()或者next(‘’)从定向到某一个路由
+                // next(); 没问题放行
+                // next(false); 终端导航
+                // next('/home') 重定向到某个路由
+                // 无论执行哪一种next,都要执行一个
+            }
+        }
+    ];
+
+    let router = new VueRouter({
+        routes 
+    });
+
+    let vm = new Vue({
+        el : '#app',
+        router
+    })
+    </script>
+</body>
+</html>

@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+    }
+    .box {
+      width: 400px;
+      margin: 30px auto;
+      border: 2px solid lightgreen;
+      padding: 15px;
+    }
+  </style>
+</head>
+<body>
+<div id="app">
+  <div class="box">
+    <h2>用户信息登记</h2>
+    <div><label>姓名</label><input type="text" v-model="filterData.name"></div>
+    <div><label>电话</label><input type="text" v-model="filterData.phone"></div>
+    <div>性别：
+      <label>男：<input type="radio" value="1" v-model="filterData.sex"></label>
+      <label>女：<input type="radio" value="2" v-model="filterData.sex"></label>
+      <label>未知：<input type="radio" value="3" v-model="filterData.sex"></label>
+    </div>
+    <div>
+      爱好：
+      <label>唱 <input type="checkbox" value="1" v-model="filterData.hobby"></label>
+      <label>跳 <input type="checkbox" value="2" v-model="filterData.hobby"></label>
+      <label>RAP <input type="checkbox" value="3" v-model="filterData.hobby"></label>
+      <label>篮球 <input type="checkbox" value="4" v-model="filterData.hobby"></label>
+    </div>
+    <div>
+      年级：
+      <select v-model="filterData.clas">
+        <option value="">请选择</option>
+        <option value="1">初一</option>
+        <option value="2">初二</option>
+        <option value="3">初三</option>
+        <option value="4">高一</option>
+        <option value="5">高二</option>
+        <option value="6">高三</option>
+      </select>
+    </div>
+    <div>
+      备注：
+      <textarea cols="50" rows="20" v-model="filterData.tips"></textarea>
+    </div>
+    <div>
+      <button @click="submit" :disabled="true">提交</button>
+    </div>
+  </div>
+</div>
+
+
+<script src="./js/axios.js"></script>
+<script src="./js/vue.js"></script>
+<!--有src的script标签不能写内嵌式js-->
+
+<script>
+  // input
+  // radio
+  // checkbox
+  // select
+  // textarea
+let vm = new Vue({
+    el : '#app',
+    data : {
+      filterData : {
+        name : '',
+        phone: '',
+        sex: 1,
+        hobby: [1] ,
+        clas : 1,
+        tips : ''
+      }
+    },
+    methods: {
+      submit(){
+        axios.post('/api/addUser',
+      this.filterData).then(({data})=>{
+          if(data.code !== 0 ){
+            alert (data.msg);
+          }else{
+            alert('注册成功');
+          }
+        })
+      }
+    }
+});
+</script>
+
+
+</body>
+</html>

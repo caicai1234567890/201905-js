@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script src="./vue.js"></script>
+    <script src="./vue-router.js"></script>
+    <script>
+    // 导航守卫 ： 
+    // 导航是正在发生变化的路由，从当前组件离开准备去往下一个组件
+    // 为什么需要导航守卫？
+    // 真实的项目中我们需要根据用户权限，登录状态来决定用户可以看到的页面，但是路由就在浏览器的地址栏中，如果不加以拦截，用户通过在地址栏中输入就可以看到他本不该看到的页面
+    // 学习导航守卫就是学习几个钩子
+
+    // 1.全局前置导航守卫
+        // 对所有的路由都生效
+    router.beforeEach((to,from,next)=> {
+        // to 路由对象，包含间要去往的路由信息
+        // from 路由对象，包含了正要离开的路由信息
+        // next 控制权函数，如果通过验证执行next(),交出控制权
+        // next(false)终端当前导航，如果url发生变化就回退到当前页面的路由
+        // next(路由或者路由对象) 相当于重定向到指定的路由
+
+        // 无论哪种情况都要执行对应的next()如果不执行就会处于挂起状态
+        // 在这个函数中就可以拦截,例如从cookie中获取登录状态，如果登录了就可以执行next,如果没有登录就到登录页
+        let isLogIn = document.cookie.includes('isLogin=true');
+        if(to.fullPath === '/list/view'){
+            // view 现在不需要验证，所以访问view的时候直接放行
+            next();
+        }else{
+            next('/view');// 重定向到view
+            next(false); // 中止导航，不能从当前页离开
+        }
+
+        // next();
+    })
+    
+    
+    </script>
+</body>
+</html>

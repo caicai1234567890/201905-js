@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        *{
+            margin : 0;
+            padding : 0 ;
+        }
+        ul,li{
+            list-style: none;
+            
+        }
+        ul{
+            width : 800px;
+            margin : 30px auto;
+            
+        }
+        .wrapper{
+            border: 1px solid #00b38a;
+        }
+        .header{
+            overflow: hidden;
+            border-bottom : 1px solid #00b38a;
+        }
+        .header li{
+            float : left ;
+            width : 200px;
+            box-sizing: border-box;
+            height : 35px;
+            line-height: 35px;
+            text-align: center;
+            cursor: pointer;
+        }
+        .header li:nth-last-child(){
+            border-right : none;
+        }
+        .header li.active{
+            background : yellowgreen;
+        }
+        .card {
+            height : 400px;
+            line-height: 400px;
+            font-size : 40px;
+            text-align: center;
+            display: none;
+            text-decoration: underline;
+        }
+        .card.active{
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+
+    <div class="wrapper">
+        <ul class="header">
+            <li :class="{active: selected===0}" @click="headerClick(0)">唱</li>
+            <li @click="headerClick(1)" :class="{active: selected===1}" >跳</li>
+            <li @click="headerClick(2)" :class="{active: selected===2}"  >rap</li>
+        </ul>
+        <div class="card" :class="{active : selected===0}">质疑你</div>
+        <div class="card" :class="{active : selected===1}">钢管</div>
+        <div class="card" :class="{active : selected===2}">篮球</div>
+    </div>
+
+</div>
+<script src="./js/vue.js"></script>
+<script>
+let headers = ['唱','跳','rap'];
+let body = ['gangguan','rap','NBA'];
+let vm = new Vue({
+    el : '#app',
+    data:{
+        selected : 0 ,
+        headers :[],
+        body:[]
+    },
+    methods: {
+        headerClick(index){
+            this.selected = index;
+        }
+    }
+})
+
+
+</script>
+</body>
+</html>

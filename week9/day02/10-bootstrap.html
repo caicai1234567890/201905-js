@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./css/bootstrap.css">
+</head>
+<style>
+    .row div{
+        border : 1px solid red;
+    }
+</style>
+<body>
+    <!-- bootstrap是css框架，依靠类名来控制元素，内置了很多样式 ，当你需要这个样式的时候，在元素上加一个类名就可以了-->
+    <!-- 1. bootstrap采用的栅格布局，会把屏幕宽度分为12份，
+    2. 常用的类名
+    2.1 .container 会让这个元素水平居中
+    2.2 row 行 一行是12列
+    2.3 .col 列  .col-lg-x 大屏幕
+    .col-md-x 中等屏幕
+    .col-sm-x 小屏幕
+    .col-xs-x 超小屏幕
+ -->
+<div class="container">
+    <div class="row"> 
+        <!-- 一行是12列，超出12列后换行 -->
+        <div class="col-md-3">A</div>
+        <div class="col-md-3">B</div>
+        <div class="col-md-3">C</div>
+        <div class="col-md-3">d</div>
+        <div class="col-md-3">e</div>
+        <div class="col-md-12">s</div>
+    </div>
+</div>
+
+<table class="table table-bordered table-striped table-hover">
+    <tr> <!-- tr是一行 -->
+        <td>
+            <!-- td是行里面的列 -->
+            第一项
+        </td>
+        <td>
+            第二项
+        </td>
+        <td>第三项</td>
+    </tr>
+    <tr> <!-- tr是一行 -->
+        <td>
+            <!-- td是行里面的列 -->
+            第一项
+        </td>
+        <td>
+            第二项
+        </td>
+        <td>第三项</td>
+    </tr>
+    <tr> <!-- tr是一行 -->
+        <td>
+            <!-- td是行里面的列 -->
+            第一项
+        </td>
+        <td>
+            第二项
+        </td>
+        <td>第三项</td>
+    </tr>
+</table>
+</body>
+</html>

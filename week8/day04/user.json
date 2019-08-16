@@ -1,0 +1,18 @@
+[
+    {
+        "id":1,
+        "name":"lisi",
+        "pwd" : "123456",
+        "age":18,
+        "sex":1,
+        "job":"FE"
+    },
+    {
+        "id":2,
+        "name":"zhangsan",
+        "pwd":"789jqk",
+        "age":15,
+        "sex":2,
+        "job":"WE"
+    }
+]

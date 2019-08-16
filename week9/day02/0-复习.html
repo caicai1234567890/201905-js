@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div id="app">
+    <ul>
+        <li>{{msg}}</li>
+        <li>{{0 ? 'a' : 'b'}}</li>
+        <li><input type="text" v-model="msg"></li>
+        <li v-text="title"></li>
+    </ul>
+    <div v-if="flag">A</div>
+    <div v-else="flag">C</div>
+    <div :key="msg"></div>
+</div>
+<script src="./js/vue.js"></script>
+<script>
+    let vm = new Vue({
+        el : '#app',
+        data:{
+            msg: 'hello world',
+            title:'<h1>title</h1>',
+            flag : true
+        }
+    });
+
+</script>
+<script>
+/* 
+1. express 是Node.js的服务端框架,用来开发服务端的程序
+2. express 需要安装 : npm install express --save 
+3. 导入express = require('express');
+4. 创建服务 let app = express();
+5. 监听端口号 app.listen(8000,()=>{})
+6. 使用静态服务中间件 app.use(express.static(__dirname));
+7. 配置路由(写接口)
+app.get('/api/test/',(req,res)=>{
+    req 和 res是经过express包装过的请求对象和响应对象
+    req.query get请求的问号传参是是一个对象
+    req.path 客户端请求的路径
+    req.host 主机域名
+    req.headers 请求头信息(cookie包含在头信息中)
+
+    res.send() 向客户端响应内容并结束请求,可以直接传对象
+})
+
+app.post('/api/post',(req,res)=>{
+    // 在post请求中需要接收post过来的数据
+    1. 安装body-parser中间件
+    2. 导入这个中间件
+    3. 使用中间件 app.use(bodyParser.json());
+    经过上面两步后在此回调中通过req.body 就可以访问客户端post过来的数据
+});
+
+// 动态路由 : 接口中有一部分是可以变的,不再是死的
+app.get('order/details/:orderId',(req,res)=>{
+    通过req.params获取动态路由的具体值,例如客户端请求: /order/details/1233
+    req.params = { orderId : 333} 
+})
+
+// 拦截指定的动态路由
+app.param('orderId',(req,res,next)=>{
+    在这个函数中可以实现拦截,然后校验,如果校验通过需要执行next()把控制权交出,如果校验不通过,可以提前结束响应 通过res.send()
+});
+
+// 中间件: 在请求之后响应之前被调用的一个或者一组函数,这个函数即可以访问请求函数也可以访问响应函数
+app.use(function(req,res,next){
+    这个地方可以拦截请求
+    拦截之后可以扩展请求对象,可以校验,但是需要在操作结束后执行next()交出控制权,如果校验或者其他的操作失败要提前结束响应,如果两个都不做,请求就会被挂起
+});
+
+ */
+
+/* 
+Vue 前端框架 MVVM
+1. 框架的模板语法: 小胡子语法(moustache) {{表达式}} 执行这一行可以得到返回结果的才叫表达式,不可以写语句, if/else , for, switch case 都不可以
+2. 小胡子语法中{{}}如果带引号的为字符串,不带引号的为变量,要去Vue的data/filters/computed/methods中查找
+3. data中的属性将来都会代理到vm身上,小胡子语法变量取值时是从vm中取得,但是我们说是从data上取是为了直观 .
+
+常用的指令: 
+1. v-model 双向数据绑定,只能用在表单元素上,把表单元素的value和data中的某个属性绑定到一起
+2. v-text 把数据绑定到DOM元素中,不识别标签,还会覆盖标签原有的内容
+3. v-html 把数据绑定到DOM元素中,可以识别标签
+4. v-if 控制元素显示隐藏,v-if绑定的值为true,这展示当前元素,如果值为false,展示v-else的元素
+5. v-show 控制元素的显示隐藏,绑定的值为true则元素展示,如果为false则元素不展示,v-if靠的是删除或者增加DOM节点来控制元素的展示与不展示,v-show是控制display属性
+6. v-bind 绑定动态属性, v-bind:属性,让属性值变为变量,让data中同名属性的值
+
+
+ */
+
+</script>
+</body>
+</html>

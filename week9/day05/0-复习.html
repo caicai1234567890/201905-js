@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <ul>
+            <li v-for="(item,index) in result" :key = "index">
+                <p @click="showhide(index)">{{item.title}}</p>
+                <!-- <div v-html="item.content" v-show ="item.flag"></div> -->
+                <div v-html="item.content" v-show ="flags[index]"></div> 
+            </li>
+        </ul>
+        <button @click="add">增加</button>
+        <ul>
+            <li v-for="(flag, index) in flags" :key = "index">{{flag}}</li>
+        </ul>
+    </div>
+<script src="./vue.js"></script>
+<script src="./axios.js"></script>
+<script>
+
+let vm = new Vue({
+    el : '#app' ,
+    data : {
+        result : [],
+        flags: [false, false, false, false, false, false, false,false, false, false]
+    },
+    methods: {
+        queryData(){
+            axios.get('./itz.json').then(({data})=>{
+                // console.log(data);
+                let { data: { listInfo }} = data ;
+                listInfo.forEach(item => item.flag = false);
+                this.result = listInfo ;
+
+                // Vue是响应式的(视图发生变化数据跟着变化,同理数据发生变化,视图跟着变化)
+                // Vue收到新数据(或者初始化)会把这个数据下面的子孙都会变成可观测对象,只有变成可观测对象的数据发生变化时,Vue才能知道数据发生变化了,进而按照最新的数据渲染
+
+                // 为啥数组原来没有,但是push之后页面就会有了
+                // Vue重写了数组原型三的方法,如push,pop,splice...在这些改写后的方法中加入了触发数据改变以后的行为的逻辑
+                // Vue中操作数据
+            });
+        },
+        showhide(index){
+            // this.result[index].flag = !this.result[index].flag ;
+            // this.flags[index] = !this.flags[index];
+            // console.log(this.flags[index]) flags里面都是基本数据类型,通过索引修改这个数组中的值Vue并不知道这个值发生了改变,也不会按照最新的值渲染
+        },   
+        add(){
+        //    this.flags[this.flags.length] = false;this.flags.length-- 
+        // 以上两种方式不允许在Vue中使用,可以用数组的方法改变数组 
+        // this.flags.push(false);
+            
+        this.flags = [false,false,false]; // 替换新数组,堆内存不同
+        }
+    },
+    created () {
+       this.queryData();
+    }
+});
+</script>
+</body>
+</html>

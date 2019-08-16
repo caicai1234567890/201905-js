@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div id="app">
+    <!-- router-link 叫做编程式导航 -->
+    <router-link to="/" tag="button">HOME</router-link>
+    <!-- router-link 是用来切换路由的,tag属性是用来指定router以什么标签渲染到页面中, to是点击router-link跳转到得路由 -->
+    <router-link to="/list">LIST</router-link>
+
+    <router-view></router-view>
+</div>
+<script src="./vue.js"></script>
+<script src="./vue-router.js"></script>
+<script>
+
+
+    let home = {
+        template: `<div>HOME<button @click="goTo">去列表</button></div>`,
+        methods: {
+            goTo(){
+                // this.$router.push('/list')
+                this.$router.push({name:'list',query:name='lisi'});
+                // 对象中的query是路由后面的问号传参
+            }
+        }
+    };
+    let list = {
+        template: `<div>LIST<button @click="back">回去</button></div>`,
+        methods:{
+            back(){
+                this.$router.go(-1); // 返回上一页
+            }
+        }
+    };
+
+    // 使用vue rooter 需要配置路由映射表
+    let routes = [
+        {
+        path:'/',    // path是路由
+        component: home  // 路由对应的组件
+        },
+        {
+            path : '/home',
+            component: home
+        },
+        {
+            // 路由映射表中配置了name属性，使用this.$router.push()时可以传入一个对象{name:'list'}
+            name: 'list' ,
+            path : '/list',
+            component: list
+        },
+        {
+            path: '*', // 除了路由映射表中配置的路由以外的路由都要指定为home
+            component: home 
+        }
+];
+// 创建一个Vue-router的实例
+let router = new VueRouter({
+    routes  // 创建vueRouter实例的时候,要传入路由映射表
+});
+
+// 创建Vue实例时配置router属性
+let vm = new Vue({
+    el : '#app',
+    components: {
+        home,
+        list
+    },
+    router: router // 配置router属性
+});
+
+// Vue-router 给我们提供了方法用于切换路由
+// 配置router以后，才可以使用$router对象
+// 1. this.$router.push('/list‘) 切换到指定的路由
+// 2. this.$router.go(-1) 返回上一页
+</script>
+</body>
+</html>

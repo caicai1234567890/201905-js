@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <div><label for="">HOME: <input type="radio" v-model="title" value="home"></label>
+            <label for="">LIST: <input type="radio" v-model="title" value="list"></label>
+        </div>
+        <!-- 条件渲染 -->
+        <!-- <home v-if="title === home"></home>
+        <list v-if="title === list"></list> -->
+
+        <!-- 动态组件 -->
+
+        <!-- 动态组件是实现在多个组件间来回切换,具体的用法 -->
+        <!-- 1. 写一个内置的component组件 -->
+        <!-- 2. 给component 动态绑定is属性,当is属性的值发生变化的时候就会去渲染title所代表的组件,被切走的组件会被销毁-->
+        <!-- keep-alive 也是内置的组件,它可以让失活的组件不销毁所以保存在组件中的实例也不会销毁 -->
+        <!-- 动态组件常和keep-alive一起使用 -->
+        <keep-alive>
+                <component :is="title"></component>
+        </keep-alive>
+        <!-- <component :is="title"></component> -->
+    </div>
+    <script src="./vue.js"></script>
+    <script>
+        // 动态组件
+        let home = {
+            template: '<div>HOME <input type="text" v-model="home"></div>' ,
+            data(){
+                return {
+                    home : ''
+                }
+            },
+            beforeDestroy () {
+                console.log('home 要销毁了')
+            },
+            destroyed () {
+                console.log('home 被销毁了')
+            }
+        };
+
+        let list = {
+            template: '<div>LiST <input type="text" v-model="list"></div>' ,
+            data(){
+                return {
+                    list : ''
+                }
+            },
+            beforeDestroy () {
+                console.log('list 要销毁了')
+            },
+            destroyed () {
+                console.log('list 被销毁了')
+            }
+
+        };
+        let vm = new Vue({
+            el : '#app',
+            data(){
+                return {
+                    title : 'home'
+                }
+            },
+            components: {
+                home , 
+                list
+            }
+        });
+   </script>
+</body>
+</html>

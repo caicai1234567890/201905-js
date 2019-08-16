@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div id="app">
+    <div>{{user.name}}</div>
+    <div>{{user.age}}</div>
+</div>
+<script src="./js/vue.js"></script>
+<script>
+    let data = {
+        el :'#app',
+        data:{
+            user:{
+                name:'lisi',
+                age : 18
+            }
+        }
+    };
+    let vm = new Vue(data);
+    // data.data.user.title = 'Commander'; 在vue创建实例完成后,再向配置对象中的data属性中添加属性,页面没有效果
+    // 创建实例以后增加或者修改属性:
+    // 使用vm.$set()方法
+    vm.$set(vm.user, 'age',40);
+    // vm.$set(vm.user,key,value);
+    // key是要修改或者新增的属性名
+    // val 属性的新值
+     
+</script>
+</body>
+</html>

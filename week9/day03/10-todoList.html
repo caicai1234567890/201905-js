@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" href="./bootstrap.min.css">
+    <style>
+        .panel-footer a{
+            margin-left : 15px;
+        } 
+        .del{
+            text-decoration: line-through; /* 线穿过文字，有一种文字删除的效果 */
+            color : #ccc;
+        }
+    </style>
+</head>
+<body>
+<div id="app">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="panel success">
+                    <div class="panel-headingbg-warning">
+                        <h2>😙{{undone}}</h2>
+                        <input type="text" class="form-control" v-model="title" @keydown.enter="add" v-focus>
+                    </div>
+                    <div class="panel-body">
+                        <ul class="list-group">
+                            <li class="list-group-item" v-for="(item , index) in filterTodo" :key="index">
+                                <span>
+                                    <input type="checkbox" v-model="item.isSelected">
+                                    <span :class="{del: item.isSelected}">{{item.title}}</span>
+                                    <!-- <del>{{item.title}}</del> 横线滑过文字-->
+                                </span>
+                                <button class="btn btn-danger btn-xs pull-right" @click = "remove(index)">删除</button>
+
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="panel-footer">
+                        <a v-for="(item,index) in config" :key = "index" :href="item.hash">{{item.name}}</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>
+
+<script src="./js/vue.js"></script>
+<script>
+
+let config = [
+    {
+        name : '全部',
+        hash : '#all'
+    },
+    {
+        name : '已完成',
+        hash : '#finished'
+    },
+    {
+        name : '未完成',
+        hash : '#unfinished'
+    }
+]
+let vm = new Vue({
+    el : '#app',
+    data : {
+        title:'',
+        todoList:[
+            {
+                isSelected : false,
+                title : '吃饭'
+            },
+            {
+                isSelected:false,
+                title : '睡觉'
+            },
+            {
+                isSelected:false,
+                title : '打豆豆'
+            }
+        ],
+        config : config,
+        hash : '#all'
+    },
+    created () {
+       window.addEventListener('hashchange',()=>{
+           this.hash = location.hash;
+       });   
+    },
+    methods:{
+        add(){
+            // 添加任务 
+            console.log(this.title);
+            this.todoList.push({
+                title: this.title,
+                isSelected:false
+            });
+            this.title = ''; // 添加到任务列表后清空
+        },
+        remove(index){
+            this.todoList.splice(index,1);
+        }
+    },
+    directives: {
+      focus : {
+          inserted(el){
+              el.focus();
+          }
+      }  
+    },
+    computed: {
+        undone(){
+           
+            let num =  this.todoList.filter(item => !item.isSelected).length;
+            let msg = '';
+            if(num){
+                msg = `你还有${num}事没做`
+            }else{
+                msg = `今天的事情做完了`;
+            }
+            return msg;
+        },
+        filterTodo(){
+            // console.log(this.hash);
+
+            if(this.hash === '#all') {
+                return this.todoList;
+            };
+            // 根据当前hash的值过滤
+            switch(this.hash){
+                case '#all' :
+                    return this.todoList;
+                case '#finished':
+                    return this.todoList.filter(item => item.isSelected);
+                case '#unfinished' :
+                    return this.todoList.filter(item => !this.isSelected);
+            }
+            // return this.todoList.filter()
+        }
+    }
+});
+
+</script>
+</body>
+</html>

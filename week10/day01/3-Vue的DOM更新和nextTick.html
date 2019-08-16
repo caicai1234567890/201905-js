@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+<body>
+<div id="app">
+
+    <ul>
+        <li v-for="(item,index) in ary" :key="index"
+        ref = "listItem"
+        >{{item}}</li>
+    </ul>
+</div>
+<script src="./vue.js"></script>
+<script>
+
+let vm = new Vue({
+    el : '#app',
+    data : {
+        ary : [1,2,4]
+    },
+    mounted () {
+        console.log(this.$refs.listItem.length);
+        this.ary.push(7,9);
+        // console.log(this.$refs.listItem.length); // 为啥还是3,不是5,
+        // 这是因为Vue更新DOM的机制是异步的,push 7,9 之后并没有更新DOM,而是先等同步任务执行完之后才会更新DOM
+        // 如果一定要获取更新数据以后的DOM,要用next.tick()
+        this.$nextTick(()=>{
+            // nextTick会把回调放在DOM更新之后执行
+            console.log(this.$refs.listItem.length);
+        });
+        
+    }
+})
+</script>
+</body>
+</html>

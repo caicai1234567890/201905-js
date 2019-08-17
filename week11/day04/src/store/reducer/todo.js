@@ -8,7 +8,7 @@ function todo(state=initState, action) {
   switch(action.type) {
     case Types.ADD_TODO:
       return {
-        ...state,
+        // ...state,
         list: [
           // 这个 list 会覆盖上面的 ... 展开出来的 List
           ...state.list,

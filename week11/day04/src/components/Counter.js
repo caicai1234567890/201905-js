@@ -1,62 +1,52 @@
 import React, { Component } from 'react'
 import Computed from './Computed';
-/* import * as Types from '../action-types' */
-import Actions from '../store/action/counter'
-import store from '../store'
-window._store = store
+import actions from '../store/action/counter'
 
-// 创建 dispatch 需要的 action 对象的函数叫做 actionCreator
-/* function add(amount) {
-  return {
-    type: Types.ADD,
-    amount
-  }
-}
- */
-/* function minus(amount) {
-  return {
-    type: Types.MINUS,
-    amount
-  }
-} */
-/* const ADD = 'ADD'
-const MINUS = 'MINUS' */
-// 在组件中使用 store 
-// 1. 导入 store
-// 2. 用 store 中的数据初始化组件的 state, store.getState 方法获取 store 中托管的数据
-// 3. 当要修改数据的时候需要 dispatch action
-// 4. 如果需要视图更新,或者在 store 当中的状态发生变化时有其他的操作,我们需要订阅状态的变化
-export default class Counter extends Component {
-  constructor (props, context) {
-    super ()
-    this.state = {
-      num: store.getState().counter.num
-    }
-  }
-  componentDidMount () {
-    this.unsub = store.subscribe(() => {
-      // 这个函数是添加到 store 更新后的订阅,当 store 中的状态更新后会执行这个函数
-      // 如果要更新视图只能通过修改组件的数据方式
-      this.setState({
-        // 我们要把当前组件的 state 更新成 store 当中的最新值
-        // 使用 combineReducers 之后获取状态需要通过命名空间
-        num: store.getState().counter.num
-      })
-    })
-  }
-  componentWillUnmount () {
-    this.unsub()
-  }
+// 使用 react-redux 来优化使用 redux 过程, 使用 connect 来实现
+// 1. 导入 connect 方法
+import { connect } from 'react-redux'
+// 2. 组件改成导出一个连接后的组件, connect 以后的组件,组件的状态以及变更状态的方法都从 props 中获取,为了让组件能从 props 中获取到状态和变更状态的方法,我们做一些处理
+
+class Counter extends Component {
+
   render() {
-    // 如果某个 action 会被派发多次,用 actionCreator 可以简化代码,在需要 action 的地方调用 actionCreator 函数,并且传入 payload
     return (<div className="container">
-      <button onClick={() => store.dispatch(Actions.add(2))}>+2</button>
-      <button onClick={() => store.dispatch(Actions.add(1))}>+1</button>
-      <span>{this.state.num}</span>
-      <button onClick={() => store.dispatch(Actions.minus(3))}>-3</button>
-      <Computed {...this.state}/>
+      <button onClick={() => this.props.add(2)} >+2</button>
+      <span>{this.props.num}</span>
+      <h2>X :{this.props.x}</h2>
+      <Computed />
     </div>)
   }
 }
 
-// 在 React 中数据的通信父子间通过 props 传递,如果数据很多不方便而且非父子组件间无能为力,为了优化这个过程我们使用 redux 托管全局数据
+// connect 第一次执行的时候接收两个参数:
+// 1. mapStateToProps 是个函数
+let mapStateToProps = (state) => {
+  // state 是 store.getState() 的返回结果
+  // mapStateToProps 函数需要返回一个对象，这个对象的属性会成为组件的 props
+  console.log(state)
+  return {
+    num: state.counter.num,
+    x: state.counter.x
+  }
+}
+// 2. mapDispatchToProps 把dispacth 映射到 props 上
+let mapDispatchToProps = (dispatch) => {
+  // dispatch 就是 store.dsipatch
+  // mapDispatchToProps 需要返回一个对象，这个对象里面的方法会成为组件的 props
+  return {
+    add (amount) {
+      dispatch(actions.add(amount))
+    }
+  }
+}
+// export default connect(mapStateToProps,mapDispatchToProps)(Counter)
+
+// connect 后面根两个执行： 
+// 第一个执行要传递两个参数
+// 第二个执行传入需要被连接的组件
+
+// mapStateToProps, mapDispatchToProps 的简化写法
+// mapStateToProps 可以简化成一个箭头函数，在箭头函数通过 ... 展开state 中的数据
+// mapDispatchToProps 可以简化成 action 对象，此时 actionCreator 中的属性名就成了组件的 props
+export default connect(state => ({...state.counter}), actions )(Counter)
